@@ -511,6 +511,7 @@
             this.txtp.Name = "txtp";
             this.txtp.Size = new System.Drawing.Size(100, 20);
             this.txtp.TabIndex = 4;
+            this.txtp.TextChanged += new System.EventHandler(this.txtp_TextChanged);
             // 
             // label15
             // 
@@ -567,7 +568,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(565, 330);
+            this.ClientSize = new System.Drawing.Size(647, 332);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.tabControl1);
             this.Name = "ElGamal";

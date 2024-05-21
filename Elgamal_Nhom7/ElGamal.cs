@@ -17,97 +17,32 @@ namespace Elgamal_Nhom7
             InitializeComponent();
         }
 
-        private int p, a, x, k, y, c1, c2, K, banro, banma, K2, m, tk;
+        private int p, a, x, k, y, c1, c2, K, K2;
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label13_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label14_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox2_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ElGamal_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txta_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtk_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtx_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label20_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
+        private void label3_Click(object sender, EventArgs e) { }
+        private void label2_Click(object sender, EventArgs e) { }
+        private void label4_Click(object sender, EventArgs e) { }
+        private void label6_Click(object sender, EventArgs e) { }
+        private void label1_Click(object sender, EventArgs e) { }
+        private void groupBox1_Enter(object sender, EventArgs e) { }
+        private void label12_Click(object sender, EventArgs e) { }
+        private void label13_Click(object sender, EventArgs e) { }
+        private void label14_Click(object sender, EventArgs e) { }
+        private void groupBox2_Enter(object sender, EventArgs e) { }
+        private void ElGamal_Load(object sender, EventArgs e) { }
+        private void txta_TextChanged(object sender, EventArgs e) { }
+        private void txtk_TextChanged(object sender, EventArgs e) { }
+        private void txtx_TextChanged(object sender, EventArgs e) { }
+        private void txtp_TextChanged(object sender, EventArgs e) { }
+        private void label20_Click(object sender, EventArgs e) { }
+        private void textBox2_TextChanged(object sender, EventArgs e) { }
 
         private void cmd_giaima_Click(object sender, EventArgs e)
         {
-            Giaima();
+            txtbanro1.Text = Giaima(txtbanma1.Text);
         }
 
-        private void label24_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void label24_Click(object sender, EventArgs e) { }
 
         private void cmd_tudong_Click(object sender, EventArgs e)
         {
@@ -118,7 +53,7 @@ namespace Elgamal_Nhom7
             }
             else
             {
-                MessageBox.Show("Làm ơn nhập đầy đủ đầu vào p,a,x!!!", "Thông báo", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Làm ơn nhập đầy đủ đầu vào p,a,x!!!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -165,11 +100,12 @@ namespace Elgamal_Nhom7
         {
             if (txtbanro.Text != "")
             {
-                MaHoa();
+                txtbanma.Text = MaHoa(txtbanro.Text);
+                txtbanma1.Text = txtbanma.Text;
             }
             else
             {
-                MessageBox.Show("Làm ơn nhập bản rõ!!!", "Thông báo",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show("Làm ơn nhập bản rõ!!!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -183,10 +119,6 @@ namespace Elgamal_Nhom7
 
         public int mod(int m, int e, int n)
         {
-
-
-            //Sử dụng thuật toán "bình phương nhân"
-            //Chuyển e sang hệ nhị phân
             int[] a = new int[100];
             int k = 0;
             do
@@ -196,7 +128,7 @@ namespace Elgamal_Nhom7
                 e = e / 2;
             }
             while (e != 0);
-            //Quá trình lấy dư
+
             int kq = 1;
             for (int i = k - 1; i >= 0; i--)
             {
@@ -205,30 +137,50 @@ namespace Elgamal_Nhom7
                     kq = (kq * m) % n;
             }
             return kq;
-
         }
 
-       
-
-        private void MaHoa()
+        private string MaHoa(string plainText)
         {
-            tk = int.Parse(txtbanro.Text);
-            k = int.Parse(txtk.Text);
-            K = mod(y, k, p);
-            c1 = mod(a, k, p);
-            c2 = mod((K * int.Parse(txtbanro.Text)), 1, p);
-            //   c2 = (k * int.Parse(txtbanro.Text)) / p;
-            txtbanma.Text = c1.ToString() + " - " + c2.ToString();
-            txtbanma1.Text = c1.ToString() + " - " + c2.ToString();
+            StringBuilder cipherText = new StringBuilder();
+            foreach (char ch in plainText)
+            {
+                int tk = (int)ch;
+                k = int.Parse(txtk.Text);
+                K = mod(y, k, p);
+                c1 = mod(a, k, p);
+                c2 = (K * tk) % p;
+                cipherText.Append(c1.ToString() + "-" + c2.ToString() + " ");
+            }
+            return cipherText.ToString().Trim();
         }
 
-        private void Giaima()
+        private string Giaima(string cipherText)
         {
-            K2 = mod(c1, x, p);
-            int tg = (int)(c2 * Math.Pow(K2, -1));
-            m = c2 * mod(tg, 1, p);
-            txtbanro1.Text = tk.ToString();
+            StringBuilder plainText = new StringBuilder();
+            string[] parts = cipherText.Split(' ');
+            foreach (string part in parts)
+            {
+                string[] cParts = part.Split('-');
+                c1 = int.Parse(cParts[0]);
+                c2 = int.Parse(cParts[1]);
+                K2 = mod(c1, x, p);
+                int invK2 = modInverse(K2, p);
+                int m = (c2 * invK2) % p;
+                plainText.Append((char)m);
+            }
+            return plainText.ToString();
+        }
+
+        private int modInverse(int a, int m)
+        {
+            for (int x = 1; x < m; x++)
+            {
+                if ((a * x) % m == 1)
+                    return x;
+            }
+            throw new Exception("Modular inverse does not exist.");
         }
     }
 }
-    
+
+
